@@ -1,0 +1,78 @@
+[
+  {
+    "Id": 1,
+    "VehicleType": "Default Vehicle",
+    "Time": "Day",
+    "Drive": {
+      "StartPrice": "37",
+      "KmPrice": "12,75",
+      "MinutePrice": "5,75"
+    },
+    "Addition": {
+      "PrBike": "30",
+      "Storage": "30",
+      "Airport": "15",
+      "MoreThan4": "40",
+      "LiftVehicle": "350",
+      "Oeresund": "350",
+      "Storebaelt": "540"
+    }
+  },
+  {
+    "Id": 2,
+    "VehicleType": "Default Vehicle",
+    "Time": "Night",
+    "Drive": {
+      "StartPrice": "47",
+      "KmPrice": "16",
+      "MinutePrice": "7"
+    },
+    "Addition": {
+      "PrBike": "30",
+      "Storage": "30",
+      "Airport": "15",
+      "MoreThan4": "40",
+      "LiftVehicle": "350",
+      "Oeresund": "350",
+      "Storebaelt": "540"
+    }
+  },
+  {
+    "Id": 3,
+    "VehicleType": "Bigger Vehicle",
+    "Time": "Day",
+    "Drive": {
+      "StartPrice": "77",
+      "KmPrice": "17",
+      "MinutePrice": "5,75"
+    },
+    "Addition": {
+      "PrBike": "30",
+      "Storage": "30",
+      "Airport": "15",
+      "MoreThan4": "40",
+      "LiftVehicle": "350",
+      "Oeresund": "350",
+      "Storebaelt": "540"
+    }
+  },
+  {
+    "Id": 4,
+    "VehicleType": "Bigger Vehicle",
+    "Time": "Night",
+    "Drive": {
+      "StartPrice": "87",
+      "KmPrice": "19",
+      "MinutePrice": "7"
+    },
+    "Addition": {
+      "PrBike": "30",
+      "Storage": "30",
+      "Airport": "15",
+      "MoreThan4": "40",
+      "LiftVehicle": "350",
+      "Oeresund": "350",
+      "Storebaelt": "540"
+    }
+  }
+]
