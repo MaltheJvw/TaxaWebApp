@@ -1,10 +1,180 @@
 ﻿@page "/pricecalculations"
+@using System.Collections.Generic
+@using System.Linq
+@using TaxaWebApp
 @inject TaxiService TaxiService
 @inject IJSRuntime JSRuntime
 @rendermode InteractiveServer
 
 <h3>PriceCalculation</h3>
 
-@code {
+@if (taxiRates == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div>
+        <label for="vehicleType">Select Vehicle Type:</label>
+        <select id="vehicleType" @onchange="OnVehicleTypeChanged">
+            <option value="">Select a vehicle type</option>
+            @foreach (var vehicle in vehicleTypes)
+            {
+                <option value="@vehicle">@vehicle</option>
+            }
+        </select>
+    </div>
 
+    <div>
+        <label for="time">Select Time:</label>
+        <select id="time" @onchange="OnTimeChanged">
+            <option value="">Select a time</option>
+            @foreach (var time in times)
+            {
+                <option value="@time">@time</option>
+            }
+        </select>
+    </div>
+
+    @if (selectedRate != null)
+    {
+        <div>
+            <h4>Passenger Amount</h4>
+            <label for="passengerCount">Number of Passengers:</label>
+            <select id="passengerCount" @onchange="OnPassengerCountChanged">
+                @for (int i = 1; i <= selectedRate.PassengerCapacity; i++)
+                {
+                    <option value="@i">@i</option>
+                }
+            </select>
+        </div>
+        <div>
+            <h4>Additional Options</h4>
+            @foreach (var addition in selectedRate.Addition)
+            {
+                <div>
+                    <label>
+                        <input type="checkbox" @onchange="(e) => OnAdditionChanged(e, addition.Key)" />
+                        @addition.Key: @addition.Value
+                    </label>
+                </div>
+            }
+        </div>
+
+        <div>
+            <h4>Selected Rate Details</h4>
+            
+            <p>Km Price: @selectedRate.Drive["KmPrice"]</p>
+            
+        </div>
+    }
+}
+
+@if (selectedRate != null)
+{
+    <div>
+        <h4>Calculate Total Price</h4>
+        <div>
+            <label for="distance">Distance (km):</label>
+            <input id="distance" type="number" @bind="distance" />
+        </div>
+        <button @onclick="CalculatePrice">Calculate</button>
+
+        @if (totalPrice != null)
+        {
+            <p>Total Price: @totalPrice</p>
+        }
+    </div>
+}
+
+@code {
+    private List<TaxiRate> taxiRates;
+    private List<string>? vehicleTypes = new List<string>();
+    private List<string> times = new List<string>();
+    private TaxiRate? selectedRate;
+    private List<string> selectedAdditions = new List<string>();
+
+    private string? selectedPassengerCount;
+    private string? selectedVehicleType;
+    private string? selectedTime;
+    private decimal? distance;
+    private decimal? time;
+    private decimal? totalPrice;
+
+    protected override async Task OnInitializedAsync()
+    {
+        taxiRates = TaxiService.GetJsonData();
+        if (taxiRates != null)
+        {
+            vehicleTypes = taxiRates.Select(tr => tr.VehicleType).Distinct().ToList();
+            times = taxiRates.Select(tr => tr.Time).Distinct().ToList();
+        }
+    }
+
+    private void OnVehicleTypeChanged(ChangeEventArgs e)
+    {
+        selectedVehicleType = e.Value.ToString();
+        UpdateSelectedRate();
+    }
+
+    private void OnTimeChanged(ChangeEventArgs e)
+    {
+        selectedTime = e.Value.ToString();
+        UpdateSelectedRate();
+    }
+    private void OnPassengerCountChanged(ChangeEventArgs e)
+    {
+        selectedPassengerCount = e.Value.ToString();
+        UpdateSelectedRate();
+    }
+
+    private void OnAdditionChanged(ChangeEventArgs e, string additionKey)
+    {
+        var isChecked = ((bool?)e.Value) ?? false;
+        if (isChecked)
+        {
+            selectedAdditions.Add(additionKey);
+        }
+        else
+        {
+            selectedAdditions.Remove(additionKey);
+        }
+    }
+
+    private void UpdateSelectedRate()
+    {
+        if (!string.IsNullOrEmpty(selectedVehicleType) && !string.IsNullOrEmpty(selectedTime))
+        {
+            selectedRate = taxiRates.FirstOrDefault(tr =>
+            tr.VehicleType == selectedVehicleType &&
+            tr.Time == selectedTime &&
+            (selectedVehicleType != "Default Vehicle" || tr.PassengerCapacity >= 6) &&
+            (selectedVehicleType != "Bigger Vehicle" || tr.PassengerCapacity >= 8)
+        );
+            selectedAdditions.Clear(); // Clear previous selections
+            StateHasChanged(); // Ensure the UI is updated
+            Console.WriteLine($"Selected Rate updated: {selectedRate?.VehicleType}, {selectedRate?.Time}");
+        }
+        else
+        {
+            selectedRate = null;
+        }
+    }
+
+    private void CalculatePrice()
+    {
+        if (selectedRate != null && distance.HasValue)
+        {
+            
+            decimal kmPrice = decimal.Parse(selectedRate.Drive["KmPrice"]);
+            
+
+            totalPrice = kmPrice * distance.Value;
+
+            foreach (var addition in selectedAdditions)
+            {
+                totalPrice += decimal.Parse(selectedRate.Addition[addition]);
+            }
+        }
+    }
 }

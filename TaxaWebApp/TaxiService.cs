@@ -2,9 +2,9 @@
 
 namespace TaxaWebApp
 {
-    public class TaxiService : TaxiRate
+    public class TaxiService
     {
-        public List<TaxiService>? GetJsonData()
+        public List<TaxiRate> GetJsonData()
         {
             string jsonFilePath = "wwwroot/CustomerService.json";
             string json;
@@ -15,19 +15,17 @@ namespace TaxaWebApp
             }
             catch (FileNotFoundException)
             {
-                Console.WriteLine($"Fejl: Filen '{jsonFilePath}' blev ikke fundet.");
+                Console.WriteLine($"Error: The file '{jsonFilePath}' was not found.");
                 return null;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Fejl under læsning af filen: {ex.Message}");
+                Console.WriteLine($"Error reading the file: {ex.Message}");
                 return null;
             }
 
-            List<TaxiService>? allData;
-
-            // Deserialise JSON-data to a list of QuestionData-objects
-            allData = JsonConvert.DeserializeObject<List<TaxiService>>(json);
+            // Deserialize JSON data to a list of TaxiRate objects
+            List<TaxiRate>? allData = JsonConvert.DeserializeObject<List<TaxiRate>>(json);
 
             return allData;
         }

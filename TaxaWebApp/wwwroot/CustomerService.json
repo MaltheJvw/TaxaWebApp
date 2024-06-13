@@ -3,6 +3,7 @@
     "Id": 1,
     "VehicleType": "Default Vehicle",
     "Time": "Day",
+    "PassengerCapacity": 6,
     "Drive": {
       "StartPrice": "37",
       "KmPrice": "12,75",
@@ -22,6 +23,7 @@
     "Id": 2,
     "VehicleType": "Default Vehicle",
     "Time": "Night",
+    "PassengerCapacity": 6,
     "Drive": {
       "StartPrice": "47",
       "KmPrice": "16",
@@ -41,6 +43,7 @@
     "Id": 3,
     "VehicleType": "Bigger Vehicle",
     "Time": "Day",
+    "PassengerCapacity": 8,
     "Drive": {
       "StartPrice": "77",
       "KmPrice": "17",
@@ -60,6 +63,7 @@
     "Id": 4,
     "VehicleType": "Bigger Vehicle",
     "Time": "Night",
+    "PassengerCapacity": 8,
     "Drive": {
       "StartPrice": "87",
       "KmPrice": "19",
