@@ -63,9 +63,9 @@ else
 
         <div>
             <h4>Selected Rate Details</h4>
-            
+            <p>Start Price: @selectedRate.Drive["StartPrice"]</p>
             <p>Km Price: @selectedRate.Drive["KmPrice"]</p>
-            
+            <p>Minute Price: @selectedRate.Drive["MinutePrice"]</p>
         </div>
     }
 }
@@ -100,6 +100,7 @@ else
     private decimal? distance;
     private decimal? time;
     private decimal? totalPrice;
+    private decimal? totalAddition;
 
     protected override async Task OnInitializedAsync()
     {
@@ -113,6 +114,7 @@ else
 
     private void OnVehicleTypeChanged(ChangeEventArgs e)
     {
+        Console.WriteLine("fwf");
         selectedVehicleType = e.Value.ToString();
         UpdateSelectedRate();
     }
@@ -157,24 +159,30 @@ else
         }
         else
         {
+            
             selectedRate = null;
         }
     }
 
     private void CalculatePrice()
     {
-        if (selectedRate != null && distance.HasValue)
+        
+        if (selectedRate != null && distance.HasValue && time.HasValue)
         {
-            
-            decimal kmPrice = decimal.Parse(selectedRate.Drive["KmPrice"]);
-            
-
-            totalPrice = kmPrice * distance.Value;
-
             foreach (var addition in selectedAdditions)
             {
-                totalPrice += decimal.Parse(selectedRate.Addition[addition]);
+                totalAddition += decimal.Parse(selectedRate.Addition[addition]);
+
             }
+            decimal startPrice = decimal.Parse(selectedRate.Drive["StartPrice"]);
+            decimal minutePrice = decimal.Parse(selectedRate.Drive["MinutePrice"]);
+            decimal kmPrice = decimal.Parse(selectedRate.Drive["KmPrice"]);
+
+
+            decimal minutes = distance.Value * 1.2M;
+            totalPrice = distance.Value * kmPrice + minutes * minutePrice + startPrice + totalAddition;
+            
+
         }
     }
 }
