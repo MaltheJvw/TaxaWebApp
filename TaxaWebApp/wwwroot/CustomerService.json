@@ -10,7 +10,7 @@
       "MinutePrice": "5,75"
     },
     "Addition": {
-      "PrBike": "30",
+      "Bike": "30",
       "Storage": "30",
       "Airport": "15",
       "MoreThan4": "40",
@@ -30,7 +30,7 @@
       "MinutePrice": "7"
     },
     "Addition": {
-      "PrBike": "30",
+      "Bike": "30",
       "Storage": "30",
       "Airport": "15",
       "MoreThan4": "40",
@@ -50,7 +50,7 @@
       "MinutePrice": "5,75"
     },
     "Addition": {
-      "PrBike": "30",
+      "Bike": "30",
       "Storage": "30",
       "Airport": "15",
       "MoreThan4": "40",
@@ -70,7 +70,7 @@
       "MinutePrice": "7"
     },
     "Addition": {
-      "PrBike": "30",
+      "Bike": "30",
       "Storage": "30",
       "Airport": "15",
       "MoreThan4": "40",

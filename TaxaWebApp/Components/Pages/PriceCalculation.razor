@@ -41,7 +41,7 @@ else
         <div>
             <h4>Passenger Amount</h4>
             <label for="passengerCount">Number of Passengers:</label>
-            <select id="passengerCount" @onchange="OnPassengerCountChanged">
+            <select id="passengerCount" @bind="selectedPassengerCount">
                 @for (int i = 1; i <= selectedRate.PassengerCapacity; i++)
                 {
                     <option value="@i">@i</option>
@@ -57,6 +57,11 @@ else
                         <input type="checkbox" @onchange="(e) => OnAdditionChanged(e, addition.Key)" />
                         @addition.Key: @addition.Value
                     </label>
+                    @if (selectedAdd != null)
+                    {
+                       
+                    }
+                    
                 </div>
             }
         </div>
@@ -78,8 +83,9 @@ else
             <label for="distance">Distance (km):</label>
             <input id="distance" type="number" @bind="distance" />
         </div>
+        
         <button @onclick="CalculatePrice">Calculate</button>
-
+        
         @if (totalPrice != null)
         {
             <p>Total Price: @totalPrice</p>
@@ -89,18 +95,22 @@ else
 
 @code {
     private List<TaxiRate> taxiRates;
-    private List<string>? vehicleTypes = new List<string>();
+    private List<string> itemType = new List<string>();
+    private List<string> vehicleTypes = new List<string>();
     private List<string> times = new List<string>();
     private TaxiRate? selectedRate;
+    private TaxiRate? selectedAdd;
     private List<string> selectedAdditions = new List<string>();
 
-    private string? selectedPassengerCount;
-    private string? selectedVehicleType;
-    private string? selectedTime;
-    private decimal? distance;
+
+
+    private int selectedPassengerCount;
+    private string selectedVehicleType;
+    private string selectedTime;
+    private decimal? distance { get; set; }
     private decimal? time;
     private decimal? totalPrice;
-    private decimal? totalAddition;
+    private decimal? totalAdditionPrice;
 
     protected override async Task OnInitializedAsync()
     {
@@ -112,9 +122,11 @@ else
         }
     }
 
+
+
     private void OnVehicleTypeChanged(ChangeEventArgs e)
     {
-        Console.WriteLine("fwf");
+
         selectedVehicleType = e.Value.ToString();
         UpdateSelectedRate();
     }
@@ -124,11 +136,6 @@ else
         selectedTime = e.Value.ToString();
         UpdateSelectedRate();
     }
-    private void OnPassengerCountChanged(ChangeEventArgs e)
-    {
-        selectedPassengerCount = e.Value.ToString();
-        UpdateSelectedRate();
-    }
 
     private void OnAdditionChanged(ChangeEventArgs e, string additionKey)
     {
@@ -136,11 +143,18 @@ else
         if (isChecked)
         {
             selectedAdditions.Add(additionKey);
+
         }
         else
         {
             selectedAdditions.Remove(additionKey);
         }
+        bool isInList = UpdateSelectedAddition(selectedAdditions, additionKey);
+    }
+
+    private void OnItemCountChanged(ChangeEventArgs e)
+    {
+
     }
 
     private void UpdateSelectedRate()
@@ -152,6 +166,7 @@ else
             tr.Time == selectedTime &&
             (selectedVehicleType != "Default Vehicle" || tr.PassengerCapacity >= 6) &&
             (selectedVehicleType != "Bigger Vehicle" || tr.PassengerCapacity >= 8)
+
         );
             selectedAdditions.Clear(); // Clear previous selections
             StateHasChanged(); // Ensure the UI is updated
@@ -159,15 +174,24 @@ else
         }
         else
         {
-            
+
             selectedRate = null;
         }
     }
 
+    private bool UpdateSelectedAddition(List<string> list, string additionKey)
+    {
+        if (list.Contains(additionKey))
+        {
+            totalAdditionPrice += decimal.Parse(additionKey);
+        }
+        totalAdditionPrice =  ;
+    }
+
     private void CalculatePrice()
     {
-        
-        if (selectedRate != null && distance.HasValue && time.HasValue)
+        decimal totalAddition = 0;
+        if (selectedRate != null && distance.HasValue)
         {
             foreach (var addition in selectedAdditions)
             {
@@ -177,12 +201,10 @@ else
             decimal startPrice = decimal.Parse(selectedRate.Drive["StartPrice"]);
             decimal minutePrice = decimal.Parse(selectedRate.Drive["MinutePrice"]);
             decimal kmPrice = decimal.Parse(selectedRate.Drive["KmPrice"]);
-
-
             decimal minutes = distance.Value * 1.2M;
-            totalPrice = distance.Value * kmPrice + minutes * minutePrice + startPrice + totalAddition;
             
 
+            totalPrice = (distance * kmPrice) + (minutes * minutePrice) + startPrice + totalAddition;
         }
     }
 }
