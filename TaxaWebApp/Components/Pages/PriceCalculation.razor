@@ -57,11 +57,7 @@ else
                         <input type="checkbox" @onchange="(e) => OnAdditionChanged(e, addition.Key)" />
                         @addition.Key: @addition.Value
                     </label>
-                    @if (selectedAdd != null)
-                    {
-                       
-                    }
-                    
+                    <input type="number" @bind="selectedAdditionQuantities[addition.Key]" min="0" />
                 </div>
             }
         </div>
@@ -74,6 +70,7 @@ else
         </div>
     }
 }
+
 
 @if (selectedRate != null)
 {
@@ -95,22 +92,24 @@ else
 
 @code {
     private List<TaxiRate> taxiRates;
-    private List<string> itemType = new List<string>();
     private List<string> vehicleTypes = new List<string>();
     private List<string> times = new List<string>();
-    private TaxiRate? selectedRate;
-    private TaxiRate? selectedAdd;
     private List<string> selectedAdditions = new List<string>();
 
 
 
-    private int selectedPassengerCount;
+    private TaxiRate? selectedRate;
+    private TaxiRate? selectedAddition;
+
+
     private string selectedVehicleType;
+    private int selectedPassengerCount;
     private string selectedTime;
     private decimal? distance { get; set; }
     private decimal? time;
     private decimal? totalPrice;
-    private decimal? totalAdditionPrice;
+
+    private Dictionary<string, int> selectedAdditionQuantities = new Dictionary<string, int>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -143,19 +142,19 @@ else
         if (isChecked)
         {
             selectedAdditions.Add(additionKey);
+            if (!selectedAdditionQuantities.ContainsKey(additionKey))
+                selectedAdditionQuantities.Add(additionKey, 1);
 
         }
         else
         {
             selectedAdditions.Remove(additionKey);
+            selectedAdditionQuantities.Remove(additionKey);
         }
-        bool isInList = UpdateSelectedAddition(selectedAdditions, additionKey);
-    }
-
-    private void OnItemCountChanged(ChangeEventArgs e)
-    {
 
     }
+
+    
 
     private void UpdateSelectedRate()
     {
@@ -171,6 +170,7 @@ else
             selectedAdditions.Clear(); // Clear previous selections
             StateHasChanged(); // Ensure the UI is updated
             Console.WriteLine($"Selected Rate updated: {selectedRate?.VehicleType}, {selectedRate?.Time}");
+            
         }
         else
         {
@@ -179,32 +179,20 @@ else
         }
     }
 
-    private bool UpdateSelectedAddition(List<string> list, string additionKey)
-    {
-        if (list.Contains(additionKey))
-        {
-            totalAdditionPrice += decimal.Parse(additionKey);
-        }
-        totalAdditionPrice =  ;
-    }
-
     private void CalculatePrice()
     {
-        decimal totalAddition = 0;
+        
         if (selectedRate != null && distance.HasValue)
         {
-            foreach (var addition in selectedAdditions)
-            {
-                totalAddition += decimal.Parse(selectedRate.Addition[addition]);
-
-            }
+            
             decimal startPrice = decimal.Parse(selectedRate.Drive["StartPrice"]);
             decimal minutePrice = decimal.Parse(selectedRate.Drive["MinutePrice"]);
             decimal kmPrice = decimal.Parse(selectedRate.Drive["KmPrice"]);
             decimal minutes = distance.Value * 1.2M;
             
+            decimal additionsPrice = selectedAdditionQuantities.Sum(kv => decimal.Parse(selectedRate.Addition[kv.Key]) * kv.Value);
 
-            totalPrice = (distance * kmPrice) + (minutes * minutePrice) + startPrice + totalAddition;
+            totalPrice = (distance * kmPrice) + (minutes * minutePrice) + startPrice;
         }
     }
 }
