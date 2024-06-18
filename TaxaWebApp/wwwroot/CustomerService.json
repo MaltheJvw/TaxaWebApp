@@ -9,15 +9,36 @@
       "KmPrice": "12,75",
       "MinutePrice": "5,75"
     },
-    "Addition": {
-      "Bike": "30",
-      "Storage": "30",
-      "Airport": "15",
-      "MoreThan4": "40",
-      "LiftVehicle": "350",
-      "Oeresund": "350",
-      "Storebaelt": "540"
-    }
+    "Additions": [
+      {
+        "Name": "Bike",
+        "Price": 30
+      },
+      {
+        "Name": "Storage",
+        "Price": 30
+      },
+      {
+        "Name": "Airport",
+        "Price": 15
+      },
+      {
+        "Name": "MoreThan4",
+        "Price": 40
+      },
+      {
+        "Name": "LiftVehicle",
+        "Price": 350
+      },
+      {
+        "Name": "Oeresund",
+        "Price": 350
+      },
+      {
+        "Name": "Storebaelt",
+        "Price": 540
+      }
+    ]
   },
   {
     "Id": 2,
@@ -29,15 +50,36 @@
       "KmPrice": "16",
       "MinutePrice": "7"
     },
-    "Addition": {
-      "Bike": "30",
-      "Storage": "30",
-      "Airport": "15",
-      "MoreThan4": "40",
-      "LiftVehicle": "350",
-      "Oeresund": "350",
-      "Storebaelt": "540"
-    }
+    "Additions": [
+      {
+        "Name": "Bike",
+        "Price": 30
+      },
+      {
+        "Name": "Storage",
+        "Price": 30
+      },
+      {
+        "Name": "Airport",
+        "Price": 15
+      },
+      {
+        "Name": "MoreThan4",
+        "Price": 40
+      },
+      {
+        "Name": "LiftVehicle",
+        "Price": 350
+      },
+      {
+        "Name": "Oeresund",
+        "Price": 350
+      },
+      {
+        "Name": "Storebaelt",
+        "Price": 540
+      }
+    ]
   },
   {
     "Id": 3,
@@ -49,15 +91,36 @@
       "KmPrice": "17",
       "MinutePrice": "5,75"
     },
-    "Addition": {
-      "Bike": "30",
-      "Storage": "30",
-      "Airport": "15",
-      "MoreThan4": "40",
-      "LiftVehicle": "350",
-      "Oeresund": "350",
-      "Storebaelt": "540"
-    }
+    "Additions": [
+      {
+        "Name": "Bike",
+        "Price": 30
+      },
+      {
+        "Name": "Storage",
+        "Price": 30
+      },
+      {
+        "Name": "Airport",
+        "Price": 15
+      },
+      {
+        "Name": "MoreThan4",
+        "Price": 40
+      },
+      {
+        "Name": "LiftVehicle",
+        "Price": 350
+      },
+      {
+        "Name": "Oeresund",
+        "Price": 350
+      },
+      {
+        "Name": "Storebaelt",
+        "Price": 540
+      }
+    ]
   },
   {
     "Id": 4,
@@ -69,14 +132,35 @@
       "KmPrice": "19",
       "MinutePrice": "7"
     },
-    "Addition": {
-      "Bike": "30",
-      "Storage": "30",
-      "Airport": "15",
-      "MoreThan4": "40",
-      "LiftVehicle": "350",
-      "Oeresund": "350",
-      "Storebaelt": "540"
-    }
+    "Additions": [
+      {
+        "Name": "Bike",
+        "Price": 30
+      },
+      {
+        "Name": "Storage",
+        "Price": 30
+      },
+      {
+        "Name": "Airport",
+        "Price": 15
+      },
+      {
+        "Name": "MoreThan4",
+        "Price": 40
+      },
+      {
+        "Name": "LiftVehicle",
+        "Price": 350
+      },
+      {
+        "Name": "Oeresund",
+        "Price": 350
+      },
+      {
+        "Name": "Storebaelt",
+        "Price": 540
+      }
+    ]
   }
 ]

@@ -50,14 +50,22 @@ else
         </div>
         <div>
             <h4>Additional Options</h4>
-            @foreach (var addition in selectedRate.Addition)
+            @foreach (var addition in selectedRate.Additions)
             {
                 <div>
                     <label>
-                        <input type="checkbox" @onchange="(e) => OnAdditionChanged(e, addition.Key)" />
-                        @addition.Key: @addition.Value
+                        <input type="checkbox" @onchange="(e) => OnAdditionChanged(e, addition.Name)" />
+                        @addition.Name: @addition.Price
                     </label>
-                    <input type="number" @bind="selectedAdditionQuantities[addition.Key]" min="0" />
+                    @if (selectedAdditions.Contains(addition.Name))
+                    {
+                        <select @bind="selectedAdditionQuantities[addition.Name]">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                    }
                 </div>
             }
         </div>
@@ -68,26 +76,26 @@ else
             <p>Km Price: @selectedRate.Drive["KmPrice"]</p>
             <p>Minute Price: @selectedRate.Drive["MinutePrice"]</p>
         </div>
-    }
-}
 
-
-@if (selectedRate != null)
-{
-    <div>
-        <h4>Calculate Total Price</h4>
         <div>
-            <label for="distance">Distance (km):</label>
-            <input id="distance" type="number" @bind="distance" />
+            <h4>Calculate Total Price</h4>
+            <div>
+                <label for="distance">Distance (km):</label>
+                <input id="distance" type="number" @bind="distance" />
+            </div>
+
+            <button @onclick="CalculatePrice">Calculate</button>
+
+            @if (totalPrice != null)
+            {
+                <p>Total Price: @totalPrice</p>
+            }
         </div>
-        
-        <button @onclick="CalculatePrice">Calculate</button>
-        
-        @if (totalPrice != null)
-        {
-            <p>Total Price: @totalPrice</p>
-        }
-    </div>
+    }
+    else
+    {
+        <p>Please select a vehicle type and time to see the rate details.</p>
+    }
 }
 
 @code {
@@ -96,17 +104,12 @@ else
     private List<string> times = new List<string>();
     private List<string> selectedAdditions = new List<string>();
 
-
-
     private TaxiRate? selectedRate;
-    private TaxiRate? selectedAddition;
-
 
     private string selectedVehicleType;
     private int selectedPassengerCount;
     private string selectedTime;
     private decimal? distance { get; set; }
-    private decimal? time;
     private decimal? totalPrice;
 
     private Dictionary<string, int> selectedAdditionQuantities = new Dictionary<string, int>();
@@ -121,11 +124,8 @@ else
         }
     }
 
-
-
     private void OnVehicleTypeChanged(ChangeEventArgs e)
     {
-
         selectedVehicleType = e.Value.ToString();
         UpdateSelectedRate();
     }
@@ -143,56 +143,56 @@ else
         {
             selectedAdditions.Add(additionKey);
             if (!selectedAdditionQuantities.ContainsKey(additionKey))
-                selectedAdditionQuantities.Add(additionKey, 1);
-
+            {
+                selectedAdditionQuantities[additionKey] = 1;
+            }
         }
         else
         {
             selectedAdditions.Remove(additionKey);
-            selectedAdditionQuantities.Remove(additionKey);
+            selectedAdditionQuantities[additionKey] = 0;
         }
-
     }
-
-    
 
     private void UpdateSelectedRate()
     {
         if (!string.IsNullOrEmpty(selectedVehicleType) && !string.IsNullOrEmpty(selectedTime))
         {
             selectedRate = taxiRates.FirstOrDefault(tr =>
-            tr.VehicleType == selectedVehicleType &&
-            tr.Time == selectedTime &&
-            (selectedVehicleType != "Default Vehicle" || tr.PassengerCapacity >= 6) &&
-            (selectedVehicleType != "Bigger Vehicle" || tr.PassengerCapacity >= 8)
-
-        );
-            selectedAdditions.Clear(); // Clear previous selections
-            StateHasChanged(); // Ensure the UI is updated
+                tr.VehicleType == selectedVehicleType &&
+                tr.Time == selectedTime &&
+                (selectedVehicleType != "Default Vehicle" || tr.PassengerCapacity >= 6) &&
+                (selectedVehicleType != "Bigger Vehicle" || tr.PassengerCapacity >= 8)
+            );
+            selectedAdditions.Clear();
+            selectedAdditionQuantities.Clear();
+            StateHasChanged();
             Console.WriteLine($"Selected Rate updated: {selectedRate?.VehicleType}, {selectedRate?.Time}");
-            
         }
         else
         {
-
             selectedRate = null;
         }
     }
 
     private void CalculatePrice()
     {
-        
         if (selectedRate != null && distance.HasValue)
         {
-            
             decimal startPrice = decimal.Parse(selectedRate.Drive["StartPrice"]);
             decimal minutePrice = decimal.Parse(selectedRate.Drive["MinutePrice"]);
             decimal kmPrice = decimal.Parse(selectedRate.Drive["KmPrice"]);
             decimal minutes = distance.Value * 1.2M;
-            
-            decimal additionsPrice = selectedAdditionQuantities.Sum(kv => decimal.Parse(selectedRate.Addition[kv.Key]) * kv.Value);
 
             totalPrice = (distance * kmPrice) + (minutes * minutePrice) + startPrice;
+
+            foreach (var addition in selectedRate.Additions)
+            {
+                if (selectedAdditionQuantities.TryGetValue(addition.Name, out int quantity))
+                {
+                    totalPrice += quantity * addition.Price;
+                }
+            }
         }
     }
 }
