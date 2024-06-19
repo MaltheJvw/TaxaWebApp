@@ -24,7 +24,7 @@ else
             }
         </select>
     </div>
-
+     
     <div>
         <label for="time">Select Time:</label>
         <select id="time" @onchange="OnTimeChanged">
@@ -54,15 +54,17 @@ else
             {
                 <div>
                     <label>
-                        <input type="checkbox" @onchange="(e) => OnAdditionChanged(e, addition.Name)" />
-                        @addition.Name: @addition.Price
+                        <input type="checkbox" @onchange="(e) => OnAdditionChanged(e, addition.Name, addition.IsDeleted)" />
+                        @addition.Name: @addition.Price Kr
                     </label>
                     @if (selectedAdditions.Contains(addition.Name))
                     {
-                        <select @bind="selectedAdditionQuantities[addition.Name]">
-                            @for (int i = 1; i <= 5; i++)
+                        <label for="quantities"> </label>
+                        <select id="quantities" @bind="selectedAdditionQuantities[addition.Name]">
+
+                            @for (int quantities = 1; quantities <= addition.Quantity; quantities++)
                             {
-                                <option value="@i">@i</option>
+                                <option value="@quantities">@quantities</option>
                             }
                         </select>
                     }
@@ -72,9 +74,9 @@ else
 
         <div>
             <h4>Selected Rate Details</h4>
-            <p>Start Price: @selectedRate.Drive["StartPrice"]</p>
-            <p>Km Price: @selectedRate.Drive["KmPrice"]</p>
-            <p>Minute Price: @selectedRate.Drive["MinutePrice"]</p>
+            <p>Start Price: @selectedRate.Drive["StartPrice"] Kr</p>
+            <p>Km Price: @selectedRate.Drive["KmPrice"] Kr</p>
+            <p>Minute Price: @selectedRate.Drive["MinutePrice"] Kr</p>
         </div>
 
         <div>
@@ -88,7 +90,7 @@ else
 
             @if (totalPrice != null)
             {
-                <p>Total Price: @totalPrice</p>
+                <p>Total Price: @totalPrice Kr</p>
             }
         </div>
     }
@@ -102,17 +104,14 @@ else
     private List<TaxiRate> taxiRates;
     private List<string> vehicleTypes = new List<string>();
     private List<string> times = new List<string>();
-    private List<string> selectedAdditions = new List<string>();
 
     private TaxiRate? selectedRate;
 
-    private string selectedVehicleType;
-    private int selectedPassengerCount;
-    private string selectedTime;
+    private string? selectedVehicleType;
+    private int? selectedPassengerCount;
+    private string? selectedTime;
     private decimal? distance { get; set; }
-    private decimal? totalPrice;
-
-    private Dictionary<string, int> selectedAdditionQuantities = new Dictionary<string, int>();
+    private decimal? totalPrice = Convert.ToDecimal(Console.ReadLine());
 
     protected override async Task OnInitializedAsync()
     {
@@ -136,23 +135,24 @@ else
         UpdateSelectedRate();
     }
 
-    private void OnAdditionChanged(ChangeEventArgs e, string additionKey)
+    private void OnAdditionChanged(ChangeEventArgs e, string additionKey, bool IsDeleted)
     {
+
         var isChecked = ((bool?)e.Value) ?? false;
         if (isChecked)
         {
             selectedAdditions.Add(additionKey);
-            if (!selectedAdditionQuantities.ContainsKey(additionKey))
-            {
-                selectedAdditionQuantities[additionKey] = 1;
-            }
-        }
+            selectedAdditionQuantities[additionKey] = 1;
+        }   
         else
         {
             selectedAdditions.Remove(additionKey);
             selectedAdditionQuantities[additionKey] = 0;
+
         }
     }
+
+    
 
     private void UpdateSelectedRate()
     {
@@ -175,6 +175,9 @@ else
         }
     }
 
+    private Dictionary<string, int> selectedAdditionQuantities = new Dictionary<string, int>();
+
+    
     private void CalculatePrice()
     {
         if (selectedRate != null && distance.HasValue)
@@ -188,10 +191,12 @@ else
 
             foreach (var addition in selectedRate.Additions)
             {
-                if (selectedAdditionQuantities.TryGetValue(addition.Name, out int quantity))
-                {
-                    totalPrice += quantity * addition.Price;
-                }
+                
+                    if (selectedAdditionQuantities.TryGetValue(addition.Name, out int quantity))
+                    {
+                      totalPrice += quantity * addition.Price;
+                    }
+                
             }
         }
     }

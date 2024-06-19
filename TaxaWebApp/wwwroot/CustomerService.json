@@ -12,31 +12,45 @@
     "Additions": [
       {
         "Name": "Bike",
-        "Price": 30
+        "Price": 30,
+        "Quantity": 3,
+        "isDeleted": true
       },
       {
         "Name": "Storage",
-        "Price": 30
+        "Price": 30,
+        "Quantity": 10,
+        "isDeleted": true
       },
       {
         "Name": "Airport",
-        "Price": 15
+        "Price": 15,
+        "Quantity": 1,
+        "isDeleted": true
       },
       {
         "Name": "MoreThan4",
-        "Price": 40
+        "Price": 40,
+        "Quantity": 1,
+        "isDeleted": true
       },
       {
         "Name": "LiftVehicle",
-        "Price": 350
+        "Price": 350,
+        "Quantity": 1,
+        "isDeleted": true
       },
       {
         "Name": "Oeresund",
-        "Price": 350
+        "Price": 350,
+        "Quantity": 1,
+        "isDeleted": true
       },
       {
         "Name": "Storebaelt",
-        "Price": 540
+        "Price": 540,
+        "Quantity": 1,
+        "isDeleted": true
       }
     ]
   },
@@ -53,31 +67,45 @@
     "Additions": [
       {
         "Name": "Bike",
-        "Price": 30
+        "Price": 30,
+        "Quantity": 3,
+        "isDeleted": true
       },
       {
         "Name": "Storage",
-        "Price": 30
+        "Price": 30,
+        "Quantity": 10,
+        "isDeleted": true
       },
       {
         "Name": "Airport",
-        "Price": 15
+        "Price": 15,
+        "Quantity": 1,
+        "isDeleted": true
       },
       {
         "Name": "MoreThan4",
-        "Price": 40
+        "Price": 40,
+        "Quantity": 1,
+        "isDeleted": true
       },
       {
         "Name": "LiftVehicle",
-        "Price": 350
+        "Price": 350,
+        "Quantity": 1,
+        "isDeleted": true
       },
       {
         "Name": "Oeresund",
-        "Price": 350
+        "Price": 350,
+        "Quantity": 1,
+        "isDeleted": true
       },
       {
         "Name": "Storebaelt",
-        "Price": 540
+        "Price": 540,
+        "Quantity": 1,
+        "isDeleted": true
       }
     ]
   },
@@ -94,31 +122,45 @@
     "Additions": [
       {
         "Name": "Bike",
-        "Price": 30
+        "Price": 30,
+        "Quantity": 3,
+        "isDeleted": true
       },
       {
         "Name": "Storage",
-        "Price": 30
+        "Price": 30,
+        "Quantity": 10,
+        "isDeleted": true
       },
       {
         "Name": "Airport",
-        "Price": 15
+        "Price": 15,
+        "Quantity": 1,
+        "isDeleted": true
       },
       {
         "Name": "MoreThan4",
-        "Price": 40
+        "Price": 40,
+        "Quantity": 1,
+        "isDeleted": true
       },
       {
         "Name": "LiftVehicle",
-        "Price": 350
+        "Price": 350,
+        "Quantity": 1,
+        "isDeleted": true
       },
       {
         "Name": "Oeresund",
-        "Price": 350
+        "Price": 350,
+        "Quantity": 1,
+        "isDeleted": true
       },
       {
         "Name": "Storebaelt",
-        "Price": 540
+        "Price": 540,
+        "Quantity": 1,
+        "isDeleted": true
       }
     ]
   },
@@ -135,31 +177,45 @@
     "Additions": [
       {
         "Name": "Bike",
-        "Price": 30
+        "Price": 30,
+        "Quantity": 3,
+        "isDeleted": true
       },
       {
         "Name": "Storage",
-        "Price": 30
+        "Price": 30,
+        "Quantity": 10,
+        "isDeleted": true
       },
       {
         "Name": "Airport",
-        "Price": 15
+        "Price": 15,
+        "Quantity": 1,
+        "isDeleted": true
       },
       {
         "Name": "MoreThan4",
-        "Price": 40
+        "Price": 40,
+        "Quantity": 1,
+        "isDeleted": true
       },
       {
         "Name": "LiftVehicle",
-        "Price": 350
+        "Price": 350,
+        "Quantity": 1,
+        "isDeleted": true
       },
       {
         "Name": "Oeresund",
-        "Price": 350
+        "Price": 350,
+        "Quantity": 1,
+        "isDeleted": true
       },
       {
         "Name": "Storebaelt",
-        "Price": 540
+        "Price": 540,
+        "Quantity": 1,
+        "isDeleted": true
       }
     ]
   }
